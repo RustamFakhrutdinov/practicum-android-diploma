@@ -9,4 +9,59 @@
     <string name="teammate_andrey">Семёнов Андрей</string>
     <string name="teammate_rustam">Фахрутдинов Рустам</string>
     <string name="teammate_faina">Шигапова Фаина</string>
+    <string name="job_search">Поиск вакансий</string>
+    <string name="hint_search">Введите запрос</string>
+    <string name="developer_С">Разработчик на С++ в команду внутренних сервисов, Москва</string>
+    <string name="avto_ru">Авто.ру</string>
+    <string name="salary_to_from">от 1 000 до 1 500 €</string>
+    <string name="there_are_no_such_vacancies">Таких вакансий нет</string>
+    <string name="empty_favorites_list">Список пуст</string>
+    <string name="vacancy">Вакансия</string>
+    <string name="experience">Требуемый опыт</string>
+    <string name="vacancy_description">Описание вакансии</string>
+    <string name="skills">Ключевые навыки</string>
+    <string name="job_description">
+        • Разрабатывать новую функциональность приложения\n
+        • Помогать с интеграцией нашего SDK в другие приложения\n
+        • Проектировать большие новые модули\n
+        • Писать UI- и unit-тесты\n
+        • Следить за работоспособностью сервиса и устранять технический долг
+    </string>
+    <string name="skills_description">
+        • Знание классических алгоритмов и структуры данных\n
+        • Программирование для Android больше одного года\n
+        • Знание WebRTC\n
+    </string>
+    <string name="vacancy_schedule">Полная занятость, Удаленная работа</string>
+    <string name="vacancy_experience_to_from">От 1 года до 3 лет</string>
+    <string name="moscow">Москва</string>
+    <string name="food">Еда</string>
+    <string name="vacancy_salary">от 100 000 ₽</string>
+    <string name="vacancy_name">Android-разработчик</string>
+    <string name="salary_not_specified">Зарплата не указана</string>
+    <string name="experience_not_specified">Опыт не указан</string>
+    <string name="schedule_not_specified">График работы не указан</string>
+    <string name="unexpected_error">Неизвестная ошибка</string>
+    <string name="vacancy_count">Найдено %d вакансий</string>
+    <string name="not_found_search_list">Таких вакансий нет</string>
+    <string name="no_connection_placeholder_text">Нет интернета</string>
+    <string name="vacancies_list_not_found_placeholder_text">Не удалось получить\nсписок вакансий</string>
+
+    <string name="searched_text">Найдено</string>
+    <string name="vacancies_text">вакансий</string>
+    <string name="server_error">Ошибка сервера</string>
+    <string name="vacancy_not_found">Вакансия не найдена или\nудалена</string>
+    <string name="AZN">₼</string>
+    <string name="BYR">р.</string>
+    <string name="EUR">€</string>
+    <string name="GEL">₾</string>
+    <string name="KGS">сом</string>
+    <string name="KZT">₸</string>
+    <string name="RUR">₽</string>
+    <string name="UAH">₴</string>
+    <string name="USD">$</string>
+    <string name="UZS">сўм</string>
+    <string name="dot_with_key_skill">• %1$s\n</string>
+    <string name="no_connection_toast">Проверьте подключение к интернету</string>
+    <string name="search_error_toast">Произошла ошибка</string>
 </resources>

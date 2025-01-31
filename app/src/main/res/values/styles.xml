@@ -46,19 +46,131 @@
     </style>
 
     <style name="TeammateTitleTextStyle" parent="BoldText32">
-        <item name="android:layout_marginTop">@dimen/teammates_title_margin_top</item>
-        <item name="android:paddingVertical">@dimen/teammates_title_padding_vertical</item>
+        <item name="android:layout_marginTop">@dimen/dp_16</item>
+        <item name="android:paddingVertical">@dimen/dp_8</item>
     </style>
 
     <style name="TeammatesTextStyle" parent="MediumText16">
-        <item name="android:paddingTop">@dimen/teammate_padding_top</item>
+        <item name="android:paddingTop">@dimen/dp_16</item>
     </style>
 
     <style name="Teammate1TextStyle" parent="MediumText16">
-        <item name="android:paddingTop">@dimen/teammate1_padding_top</item>
+        <item name="android:paddingTop">@dimen/dp_24</item>
     </style>
 
     <style name="FragmentBgStyle">
         <item name="android:background">?attr/whiteToBlack</item>
     </style>
+
+    <style name="RoundedImageView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/dp_12</item>
+    </style>
+
+    <style name="PlaceholderTextStyle">
+        <item name="android:textColor">?attr/blackToWhite</item>
+        <item name="android:textSize">@dimen/sp_22</item>
+        <item name="fontFamily">@font/ys_display_medium</item>
+    </style>
+
+    <style name="EditTextStyle" parent="RegularText16">
+        <item name="android:background">@drawable/shape_rounded_rectangle_48</item>
+        <item name="android:backgroundTint">?attr/lightGrayToGray</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">?attr/grayToWhite</item>
+        <item name="android:textCursorDrawable">@drawable/search_cursor_color</item>
+        <item name="android:imeOptions">actionDone</item>
+        <item name="android:inputType">text</item>
+        <item name="android:maxLength">30</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="GuidelineStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="RegularWhiteText16" parent="RegularText16">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ProgressBarStyle">
+        <item name="android:indeterminateTint">@color/blue</item>
+    </style>
+
+    <style name="BottomMenuStyle">
+        <item name="android:orientation">horizontal</item>
+        <item name="layout_constraintGuide_end">@dimen/bottom_menu_height</item>
+    </style>
+
+    <style name="VacancyTitleStyle" parent="MediumText22">
+        <item name="fontFamily">@font/ys_display_medium</item>
+        <item name="android:textSize">@dimen/sp_22</item>
+        <item name="android:textColor">?attr/blackToWhite</item>
+        <item name="android:textFontWeight" tools:targetApi="p">500</item>
+    </style>
+
+    <style name="VacancyEmployerStyle" parent="RegularText16">
+        <item name="fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:textColor">?attr/blackToWhite</item>
+        <item name="android:textFontWeight" tools:targetApi="p">400</item>
+    </style>
+
+    <style name="VacancySalary" parent="RegularText16">
+        <item name="fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:textColor">?attr/blackToWhite</item>
+        <item name="android:textFontWeight" tools:targetApi="p">400</item>
+    </style>
+
+    <style name="VacancyDescriptionTextStyle" parent="RegularText16">
+        <item name="fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:textColor">?attr/blackToWhite</item>
+        <item name="android:textFontWeight" tools:targetApi="p">400</item>
+    </style>
+
+    <style name="VacancyNameTextStyle" parent="BoldText32">
+        <item name="android:textColor">?attr/blackToWhite</item>
+        <item name="android:textSize">@dimen/sp_32</item>
+        <item name="android:fontFamily">@font/ys_display_bold</item>
+    </style>
+
+    <style name="VacancySalaryTextStyle" parent="MediumText22">
+        <item name="android:textColor">?attr/blackToWhite</item>
+        <item name="android:textSize">@dimen/sp_22</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+    </style>
+
+    <style name="VacancyEmployerNameTextStyle" parent="MediumText22">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/sp_22</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+    </style>
+
+    <style name="VacancyEmployerCityTextStyle" parent="RegularText16">
+        <item name="fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textFontWeight" tools:targetApi="p">400</item>
+    </style>
+
+    <style name="VacancyExperienceTextStyle" parent="MediumText22">
+        <item name="android:textColor">?attr/blackToWhite</item>
+        <item name="android:textSize">@dimen/dp_16</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+    </style>
+
+    <style name="VacancyDescriptionTitleTextStyle" parent="MediumText22">
+        <item name="android:textColor">?attr/blackToWhite</item>
+        <item name="android:textSize">@dimen/sp_22</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+    </style>
+
+    <style name="PlaceholdersTextStyle" parent="MediumText22" />
 </resources>
