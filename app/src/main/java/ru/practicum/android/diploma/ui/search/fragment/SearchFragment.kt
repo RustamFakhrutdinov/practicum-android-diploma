@@ -19,7 +19,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 import ru.practicum.android.diploma.domain.common.SearchResult
-import ru.practicum.android.diploma.ui.favourites.fragment.FavouritesFragment.PlaceholderState
 import ru.practicum.android.diploma.ui.search.viewmodel.SearchViewModel
 import ru.practicum.android.diploma.ui.vacancydetails.fragment.VacancyFragment
 import ru.practicum.android.diploma.util.coroutine.CoroutineUtils
@@ -43,6 +42,10 @@ class SearchFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         CoroutineUtils.debounceJob?.cancel()
+
+        viewModel.setNewFilterParameters()
+        viewModel.refreshSearchQuery(searchText)
+        viewModel.isFilterOn()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -83,6 +86,10 @@ class SearchFragment : Fragment() {
 
         viewModel.searchResultLiveData()
             .observe(owner) { searchResult: SearchResult -> renderSearchResult(searchResult) }
+
+        viewModel.filterIconLiveData.observe(owner) {
+            isFilterOn(it)
+        }
 
         // нажатие на кнопку Done на клавиатуре просто скрывает ее
         binding.editTextSearch.setOnEditorActionListener { _, _, _ ->
@@ -129,6 +136,10 @@ class SearchFragment : Fragment() {
             }
         }
         binding.editTextSearch.addTextChangedListener(simpleTextWatcher)
+
+        binding.buttonFilter.setOnClickListener {
+            findNavController().navigate(R.id.action_searchFragment_to_filterCommonFragment)
+        }
     }
 
     private fun clearSearchText() {
@@ -247,6 +258,14 @@ class SearchFragment : Fragment() {
 
     private fun clearButtonIsVisible(s: CharSequence?): Boolean {
         return !s.isNullOrEmpty()
+    }
+
+    private fun isFilterOn(isFilterOn: Boolean) {
+        if (isFilterOn) {
+            binding.buttonFilter.setImageResource(R.drawable.ic_filter_on_24)
+        } else {
+            binding.buttonFilter.setImageResource(R.drawable.ic_filter_off_24)
+        }
     }
 
     companion object {

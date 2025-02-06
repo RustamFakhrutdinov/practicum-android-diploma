@@ -59,20 +59,27 @@
         <action
             android:id="@+id/action_filterCountryRegionFragment_to_filterRegionFragment"
             app:destination="@id/filterRegionFragment" />
+        <action
+            android:id="@+id/action_filterCountryRegionFragment_to_filterCommonFragment"
+            app:destination="@id/filterCommonFragment" />
     </fragment>
     <fragment
         android:id="@+id/filterIndustryFragment"
         android:name="ru.practicum.android.diploma.ui.filter.industry.fragment.FilterIndustryFragment"
         android:label="fragment_filter_industry"
-        tools:layout="@layout/fragment_filter_industry" />
+        tools:layout="@layout/fragment_filter_industry">
+        <action
+            android:id="@+id/action_filterIndustryFragment_to_filterCommonFragment"
+            app:destination="@id/filterCommonFragment" />
+    </fragment>
     <fragment
         android:id="@+id/filterCountryFragment"
         android:name="ru.practicum.android.diploma.ui.filter.country.fragment.FilterCountryFragment"
         android:label="fragment_filter_country"
-        tools:layout="@layout/fragment_filter_country" />
+        tools:layout="@layout/fragment_filter_country"></fragment>
     <fragment
         android:id="@+id/filterRegionFragment"
         android:name="ru.practicum.android.diploma.ui.filter.region.fragment.FilterRegionFragment"
         android:label="fragment_filter_region"
-        tools:layout="@layout/fragment_filter_region" />
+        tools:layout="@layout/fragment_filter_region"></fragment>
 </navigation>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Practicum-Android-Diploma</string>
+    <string name="app_name">Hehe.ru</string>
     <string name="menu_main_label">Главная</string>
     <string name="menu_favourites_label">Избранное</string>
     <string name="menu_team_label">Команда</string>
@@ -64,4 +64,26 @@
     <string name="dot_with_key_skill">• %1$s\n</string>
     <string name="no_connection_toast">Проверьте подключение к интернету</string>
     <string name="search_error_toast">Произошла ошибка</string>
+    <string name="select_country_toolbar_text">Выбор страны</string>
+    <string name="select_region_toolbar_text">Выбор региона</string>
+    <string name="list_element_text">Элемент списка</string>
+    <string name="not_found_region_text">Такого региона нет</string>
+    <string name="get_region_error_text">Не удалось получить\nсписок</string>
+    <string name="input_region_hint">Введите регион</string>
+    <string name="place_of_work">Выбор места работы</string>
+    <string name="country">Страна</string>
+    <string name="region">Регион</string>
+    <string name="select">Выбрать</string>
+    <string name="industry_title">Название отрасли</string>
+    <string name="enter_industry">Введите отрасль</string>
+
+    <string name="filtration_settings">Настройки фильтрации</string>
+    <string name="place_of_work_title">Место работы</string>
+    <string name="industry">Отрасль</string>
+    <string name="expected_salary">Ожидаемая зарплата</string>
+    <string name="enter_the_amount">Введите сумму</string>
+    <string name="do_not_show_without_salary">Не показывать без зарплаты</string>
+    <string name="apply">Применить</string>
+    <string name="reset">Сбросить</string>
+    <string name="other_regions">Другие регионы</string>
 </resources>

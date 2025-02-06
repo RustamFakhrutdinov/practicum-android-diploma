@@ -30,7 +30,27 @@ class RootActivity : AppCompatActivity() {
                     binding.divider.visibility = View.GONE
                 }
 
-                R.id.vacancyFragment -> {
+                R.id.filterCommonFragment -> {
+                    binding.bottomNavigationView.visibility = View.GONE
+                    binding.divider.visibility = View.GONE
+                }
+
+                R.id.filterCountryRegionFragment -> {
+                    binding.bottomNavigationView.visibility = View.GONE
+                    binding.divider.visibility = View.GONE
+                }
+
+                R.id.filterCountryFragment -> {
+                    binding.bottomNavigationView.visibility = View.GONE
+                    binding.divider.visibility = View.GONE
+                }
+
+                R.id.filterRegionFragment -> {
+                    binding.bottomNavigationView.visibility = View.GONE
+                    binding.divider.visibility = View.GONE
+                }
+
+                R.id.filterIndustryFragment -> {
                     binding.bottomNavigationView.visibility = View.GONE
                     binding.divider.visibility = View.GONE
                 }
