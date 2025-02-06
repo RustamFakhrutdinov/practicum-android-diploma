@@ -177,7 +177,7 @@ class FilterIndustryFragment : Fragment() {
     }
 
     private fun updatePlaceholder(itemCount: Int) {
-        binding.errorPlaceholderIndustry.isVisible = itemCount == 0
+        binding.notFoundPlaceholderIndustry.isVisible = itemCount == 0
         binding.industryRecyclerView.isVisible = itemCount > 0
     }
 }

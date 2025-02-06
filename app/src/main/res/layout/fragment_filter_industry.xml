@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/FragmentBgStyle"
     tools:context=".ui.filter.industry.fragment.FilterIndustryFragment">
 
     <androidx.constraintlayout.widget.Guideline
@@ -66,7 +67,7 @@
         android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_0"
         android:paddingTop="@dimen/dp_8"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/button_select"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_text_search"
@@ -96,12 +97,43 @@
         app:layout_constraintStart_toStartOf="@id/leftGuideline"
         app:layout_constraintTop_toBottomOf="@id/error_placeholder_image" />
 
+    <ImageView
+        android:id="@+id/not_found_placeholder_image"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/empty_favorites_list"
+        android:src="@drawable/placeholder_search_not_found"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/rightGuideline"
+        app:layout_constraintStart_toStartOf="@id/leftGuideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/not_found_placeholder_text"
+        style="@style/PlaceholdersTextStyle"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_16"
+        android:gravity="center"
+        android:text="@string/not_found_industry_text"
+        app:layout_constraintEnd_toEndOf="@id/rightGuideline"
+        app:layout_constraintStart_toStartOf="@id/leftGuideline"
+        app:layout_constraintTop_toBottomOf="@id/not_found_placeholder_image" />
+
     <androidx.constraintlayout.widget.Group
         android:id="@+id/error_placeholder_industry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
         app:constraint_referenced_ids="error_placeholder_image, error_placeholder_text" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/not_found_placeholder_industry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:constraint_referenced_ids="not_found_placeholder_image, not_found_placeholder_text" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_select"
