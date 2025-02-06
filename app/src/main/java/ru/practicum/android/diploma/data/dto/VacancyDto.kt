@@ -2,22 +2,22 @@ package ru.practicum.android.diploma.data.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class VacancyDto(
+class VacancyDto(
     @SerializedName("id")
     val vacancyId: Long,
-    val name: String?,
-    val area: VacancyAreaDto?,
-    val employer: EmployerDto?,
-    val salary: SalaryDto?,
-    val experience: ExperienceDto?,
+    val name: String? = null,
+    val area: VacancyAreaDto? = null,
+    val employer: EmployerDto? = null,
+    val salary: SalaryDto? = null,
+    val experience: ExperienceDto? = null,
     @SerializedName("employment_form")
-    val employmentForm: EmploymentFormDto?,
-    val employment: EmploymentFormDto?, // deprecated
-    val schedule: ScheduleDto?,
-    val description: String?,
+    val employmentForm: EmploymentFormDto? = null,
+    val employment: EmploymentFormDto? = null, // deprecated
+    val schedule: ScheduleDto? = null,
+    val description: String? = null,
     @SerializedName("key_skills")
     val keySkills: List<SkillDto?>,
     @SerializedName("alternate_url")
-    val alternateUrl: String?,
-    val address: AddressDto?
+    val alternateUrl: String? = null,
+    val address: AddressDto? = null
 ) : Response()

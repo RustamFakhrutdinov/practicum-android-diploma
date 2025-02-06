@@ -23,7 +23,7 @@ class FilterCommonViewModel(
     val resetButtonLiveData: LiveData<Boolean> = _resetButtonLiveData
 
     init {
-        oldFilterParameters = getFilterSettings()
+        oldFilterParameters = filterInteractor.readFromFilterStorage()
         newFilterParameters = oldFilterParameters
         _filterParamLiveData.postValue(newFilterParameters)
         shouldShowResetButton()
@@ -74,10 +74,6 @@ class FilterCommonViewModel(
             newFilterParameters
         )
         shouldShowApplyButton()
-    }
-
-    private fun getFilterSettings(): FilterParameters {
-        return filterInteractor.readFromFilterStorage()
     }
 
     fun resetFilter() {

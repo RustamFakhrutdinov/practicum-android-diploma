@@ -31,7 +31,7 @@ class SearchViewModel(
     private var newFilterParameters: FilterParameters
 
     init {
-        oldFilterParameters = getFilterSettings()
+        oldFilterParameters = filterInteractor.readFromFilterStorage()
         newFilterParameters = oldFilterParameters
         isFilterOn()
     }
@@ -50,7 +50,7 @@ class SearchViewModel(
     }
 
     fun setNewFilterParameters() {
-        newFilterParameters = getFilterSettings()
+        newFilterParameters = filterInteractor.readFromFilterStorage()
     }
 
     fun isFilterOn() {
@@ -125,9 +125,4 @@ class SearchViewModel(
         }
 
     }
-
-    private fun getFilterSettings(): FilterParameters {
-        return filterInteractor.readFromFilterStorage()
-    }
-
 }

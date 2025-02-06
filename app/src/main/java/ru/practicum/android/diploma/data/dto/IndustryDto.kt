@@ -1,7 +1,7 @@
 package ru.practicum.android.diploma.data.dto
 
-data class IndustryDto(
+class IndustryDto(
     val id: String,
-    val name: String?,
-    val industries: List<IndustryDto>?
+    val name: String? = null,
+    val industries: List<IndustryDto>? = null
 )
