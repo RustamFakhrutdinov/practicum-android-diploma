@@ -10,8 +10,7 @@ class FilterCommonViewModel(
     private val filterInteractor: FilterInteractor
 ) : ViewModel() {
 
-    private var oldFilterParameters: FilterParameters
-    private var newFilterParameters: FilterParameters
+    private var filterParameters: FilterParameters = filterInteractor.readFromFilterStorage()
 
     private val _filterParamLiveData = MutableLiveData<FilterParameters>()
     val filterParamLiveData: LiveData<FilterParameters> = _filterParamLiveData
@@ -23,9 +22,7 @@ class FilterCommonViewModel(
     val resetButtonLiveData: LiveData<Boolean> = _resetButtonLiveData
 
     init {
-        oldFilterParameters = filterInteractor.readFromFilterStorage()
-        newFilterParameters = oldFilterParameters
-        _filterParamLiveData.postValue(newFilterParameters)
+        _filterParamLiveData.postValue(filterParameters)
         shouldShowResetButton()
     }
 
@@ -35,60 +32,60 @@ class FilterCommonViewModel(
         regionId: String?,
         regionName: String?
     ) {
-        newFilterParameters = newFilterParameters.copy(
+        filterParameters = filterParameters.copy(
             countryId = countryId,
             countryName = countryName,
             regionId = regionId,
             regionName = regionName
         )
-        _filterParamLiveData.postValue(newFilterParameters)
+        _filterParamLiveData.postValue(filterParameters)
         shouldShowApplyButton()
         shouldShowResetButton()
     }
 
     fun setIndustryParams(industryId: String?, industryName: String?) {
-        newFilterParameters = newFilterParameters.copy(industryId = industryId, industryName = industryName)
-        _filterParamLiveData.postValue(newFilterParameters)
+        filterParameters = filterParameters.copy(industryId = industryId, industryName = industryName)
+        _filterParamLiveData.postValue(filterParameters)
         shouldShowApplyButton()
         shouldShowResetButton()
     }
 
     fun setExpectedSalaryParam(expectedSalary: Int?) {
-        if (newFilterParameters.expectedSalary != expectedSalary) {
-            newFilterParameters = newFilterParameters.copy(expectedSalary = expectedSalary)
-            _filterParamLiveData.postValue(newFilterParameters)
+        if (filterParameters.expectedSalary != expectedSalary) {
+            filterParameters = filterParameters.copy(expectedSalary = expectedSalary)
+            _filterParamLiveData.postValue(filterParameters)
             shouldShowApplyButton()
             shouldShowResetButton()
         }
     }
 
     fun setIsWithoutSalaryShowed(isWithoutSalaryShowed: Boolean) {
-        newFilterParameters = newFilterParameters.copy(isWithoutSalaryShowed = isWithoutSalaryShowed)
-        _filterParamLiveData.postValue(newFilterParameters)
+        filterParameters = filterParameters.copy(isWithoutSalaryShowed = isWithoutSalaryShowed)
+        _filterParamLiveData.postValue(filterParameters)
         shouldShowApplyButton()
         shouldShowResetButton()
     }
 
     fun saveFilterSettings() {
         filterInteractor.saveToFilterStorage(
-            newFilterParameters
+            filterParameters
         )
         shouldShowApplyButton()
     }
 
     fun resetFilter() {
-        newFilterParameters = FilterParameters(isWithoutSalaryShowed = false)
-        _filterParamLiveData.postValue(newFilterParameters)
+        filterParameters = FilterParameters(isWithoutSalaryShowed = false)
+        _filterParamLiveData.postValue(filterParameters)
         shouldShowApplyButton()
         shouldShowResetButton()
     }
 
     private fun shouldShowApplyButton() {
-        _applyButtonLiveData.postValue(oldFilterParameters != newFilterParameters)
+        _applyButtonLiveData.postValue(filterInteractor.readFromFilterStorage() != filterParameters)
     }
 
     private fun shouldShowResetButton() {
-        _resetButtonLiveData.postValue(newFilterParameters != FilterParameters())
+        _resetButtonLiveData.postValue(filterParameters != FilterParameters())
     }
 
 }
