@@ -2,8 +2,8 @@ package ru.practicum.android.diploma.data.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class EmployerDto(
+class EmployerDto(
     val name: String?,
     @SerializedName("logo_urls")
-    val logoUrls: LogoUrlsDto?
+    val logoUrls: LogoUrlsDto? = null
 )
