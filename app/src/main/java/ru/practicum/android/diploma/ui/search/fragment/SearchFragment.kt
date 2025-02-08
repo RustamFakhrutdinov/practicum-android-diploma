@@ -132,6 +132,7 @@ class SearchFragment : Fragment() {
                 searchText = binding.editTextSearch.text.toString()
                 if (s.isNullOrEmpty()) {
                     CoroutineUtils.debounceJob?.cancel()
+                    renderSearchResult(SearchResult.Empty)
                 }
             }
         }
