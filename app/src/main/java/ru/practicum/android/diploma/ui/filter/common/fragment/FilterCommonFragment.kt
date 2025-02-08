@@ -2,6 +2,7 @@ package ru.practicum.android.diploma.ui.filter.common.fragment
 
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -167,6 +168,20 @@ class FilterCommonFragment : Fragment() {
     }
 
     private fun setupSalaryField() {
+        val lengthFilter = InputFilter.LengthFilter(EXPECTED_SALARY_CAPACITY)
+
+        val numberFilter = InputFilter { source, _, _, dest, dstart, dend ->
+            try {
+                val newText = dest.toString().substring(0, dstart) + source.toString() + dest.toString().substring(dend)
+                val input = newText.toInt()
+                if (input in 1..Int.MAX_VALUE) null else ""
+            } catch (e: NumberFormatException) {
+                ""
+            }
+        }
+
+        binding.salaryEditText.filters = arrayOf(lengthFilter, numberFilter)
+
         binding.salaryEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Ничего не делаем
@@ -255,7 +270,8 @@ class FilterCommonFragment : Fragment() {
     }
 
     companion object {
-        const val TEXT_EMPTY = ""
+        private const val TEXT_EMPTY = ""
+        private const val EXPECTED_SALARY_CAPACITY = 10
     }
 
 }
