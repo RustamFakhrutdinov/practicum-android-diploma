@@ -74,8 +74,7 @@ class FilterRegionFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = adapter
 
-        val owner = getViewLifecycleOwner()
-        viewModel.selectRegionTrigger().observe(owner) { countryRegionData: CountryRegionData ->
+        viewModel.selectRegionTrigger().observe(viewLifecycleOwner) { countryRegionData ->
             navigateBackWithParams(countryRegionData)
         }
 
@@ -90,8 +89,8 @@ class FilterRegionFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.clearIcon.isVisible = clearButtonIsVisible(s)
-                binding.searchIcon.isVisible = !clearButtonIsVisible(s)
+                binding.clearIcon.isVisible = !s.isNullOrEmpty()
+                binding.searchIcon.isVisible = s.isNullOrEmpty()
 
                 CoroutineUtils.debounce(lifecycleScope, DELAY) {
                     viewModel.filterRegions(s?.toString()?.trim())
@@ -104,7 +103,7 @@ class FilterRegionFragment : Fragment() {
         }
         binding.editTextSearch.addTextChangedListener(simpleTextWatcher)
 
-        viewModel.searchResultLiveData().observe(owner) { searchResult ->
+        viewModel.searchResultLiveData().observe(viewLifecycleOwner) { searchResult ->
             setStates(searchResult)
         }
     }
@@ -125,23 +124,21 @@ class FilterRegionFragment : Fragment() {
     private fun setStates(searchResult: SearchResult) {
         when (searchResult) {
             is SearchResult.Error -> showUI(
-                UIState.ERROR,
-                searchResult
+                UIState.ERROR
             )
 
             is SearchResult.Loading -> showUI(
-                UIState.LOADING,
-                searchResult
+                UIState.LOADING
             )
 
             is SearchResult.GetPlacesContent -> {
                 if (searchResult.regions.isEmpty()) {
-                    showUI(UIState.EMPTY, searchResult)
+                    showUI(UIState.EMPTY)
                 } else {
                     showUI(
-                        UIState.CONTENT,
-                        searchResult
+                        UIState.CONTENT
                     )
+                    adapter?.submitList(searchResult.regions)
                 }
             }
 
@@ -149,41 +146,12 @@ class FilterRegionFragment : Fragment() {
         }
     }
 
-    private fun showUI(
-        state: UIState,
-        searchResult: SearchResult
-    ) {
-        when (state) {
-            UIState.ERROR -> {
-                binding.errorPlaceholderGroup.isVisible = true
-                binding.progressBar.isVisible = false
-                binding.recyclerView.isVisible = false
-                binding.notFoundPlaceholderGroup.isVisible = false
-            }
-
-            UIState.LOADING -> {
-                binding.errorPlaceholderGroup.isVisible = false
-                binding.progressBar.isVisible = true
-                binding.recyclerView.isVisible = false
-                binding.notFoundPlaceholderGroup.isVisible = false
-            }
-
-            UIState.CONTENT -> {
-                binding.errorPlaceholderGroup.isVisible = false
-                binding.progressBar.isVisible = false
-                binding.recyclerView.isVisible = true
-                binding.notFoundPlaceholderGroup.isVisible = false
-
-                val content = searchResult as SearchResult.GetPlacesContent
-                adapter?.submitList(content.regions)
-            }
-
-            UIState.EMPTY -> {
-                binding.errorPlaceholderGroup.isVisible = false
-                binding.progressBar.isVisible = false
-                binding.recyclerView.isVisible = false
-                binding.notFoundPlaceholderGroup.isVisible = true
-            }
+    private fun showUI(state: UIState) {
+        binding.apply {
+            errorPlaceholderGroup.isVisible = (state == UIState.ERROR)
+            progressBar.isVisible = (state == UIState.LOADING)
+            recyclerView.isVisible = (state == UIState.CONTENT)
+            notFoundPlaceholderGroup.isVisible = (state == UIState.EMPTY)
         }
     }
 
@@ -197,9 +165,5 @@ class FilterRegionFragment : Fragment() {
             inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
         }
         binding.editTextSearch.clearFocus()
-    }
-
-    private fun clearButtonIsVisible(s: CharSequence?): Boolean {
-        return !s.isNullOrEmpty()
     }
 }

@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/FragmentBgStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/FragmentBgStyle"
     tools:context=".ui.filter.industry.fragment.FilterIndustryFragment">
 
     <androidx.constraintlayout.widget.Guideline
@@ -25,18 +25,18 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:navigationIcon="@drawable/ic_arrow_back_24"
-        app:title="Выбор отрасли"
+        app:title="@string/choice_industry"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteY="-3dp" />
 
     <EditText
         android:id="@+id/edit_text_search"
+        style="@style/industry_edittext"
         android:hint="@string/enter_industry"
         app:layout_constraintEnd_toEndOf="@id/rightGuideline"
         app:layout_constraintStart_toStartOf="@id/leftGuideline"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
-        tools:ignore="Autofill"
-        style="@style/industry_edittext" />
+        tools:ignore="Autofill" />
 
     <ImageView
         android:id="@+id/search_icon"
@@ -164,9 +164,8 @@
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/bottomBorder"
+        style="@style/BottomMenuStyle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/BottomMenuStyle" />
-
+        android:layout_height="wrap_content" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

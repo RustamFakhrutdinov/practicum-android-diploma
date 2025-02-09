@@ -79,16 +79,14 @@ class FilterCommonFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.acceptButtonLiveData.observe(viewLifecycleOwner) { shouldShowApplyButton ->
-            showApplyButton(shouldShowApplyButton)
+        viewModel.acceptButtonLiveData.observe(viewLifecycleOwner) {
+            setButtonVisibility(binding.applyButton, it)
         }
-
-        viewModel.resetButtonLiveData.observe(viewLifecycleOwner) { shouldShowResetButton ->
-            showResetButton(shouldShowResetButton)
+        viewModel.resetButtonLiveData.observe(viewLifecycleOwner) {
+            setButtonVisibility(binding.resetButton, it)
         }
-
-        viewModel.filterParamLiveData.observe(viewLifecycleOwner) { filterParametersModel ->
-            renderFilters(filterParametersModel)
+        viewModel.filterParamLiveData.observe(viewLifecycleOwner) {
+            renderFilters(it)
         }
     }
 
@@ -191,7 +189,7 @@ class FilterCommonFragment : Fragment() {
                 expectedSalary = binding.salaryEditText.text.toString().takeIf { it.isNotEmpty() }
                     ?.toIntOrNull()
 
-                binding.clearButton.isVisible = clearButtonVisibility(s)
+                binding.clearButton.isVisible = !s.isNullOrEmpty()
                 updateExpectedSalaryTitleTextColor(s)
                 viewModel.setExpectedSalaryParam(expectedSalary) // проверка сохранения зп в sp
             }
@@ -202,16 +200,13 @@ class FilterCommonFragment : Fragment() {
         })
     }
 
-    private fun clearButtonVisibility(s: CharSequence?): Boolean {
-        return !s.isNullOrEmpty()
-    }
-
     private fun updateExpectedSalaryTitleTextColor(s: CharSequence?) {
-        if (!s.isNullOrEmpty()) {
-            binding.expectedSalaryTitle.setTextColor(getColor(requireContext(), R.color.blue))
+        val color = if (!s.isNullOrEmpty()) {
+            getColor(requireContext(), R.color.blue)
         } else {
-            binding.expectedSalaryTitle.setTextColor(getColorFromAttr(R.attr.grayToWhite))
+            getColorFromAttr(R.attr.grayToWhite)
         }
+        binding.expectedSalaryTitle.setTextColor(color)
     }
 
     private fun getColorFromAttr(attr: Int): Int {
@@ -220,46 +215,37 @@ class FilterCommonFragment : Fragment() {
         return typedValue.data
     }
 
-    private fun showApplyButton(shouldShowApplyButton: Boolean) {
-        binding.applyButton.isVisible = shouldShowApplyButton
-    }
-
-    private fun showResetButton(shouldShowResetButton: Boolean) {
-        binding.resetButton.isVisible = shouldShowResetButton
+    private fun setButtonVisibility(button: View, isVisible: Boolean) {
+        button.isVisible = isVisible
     }
 
     private fun renderFilters(filterParameters: FilterParameters) {
-        if (!filterParameters.countryId.isNullOrEmpty()) {
-            binding.placeOfWorkDefault.isVisible = false
-            binding.placeOfWorkEditedLayout.isVisible = true
-            binding.placeOfWorkEditedValue.text = filterParameters.countryName
+        toggleVisibility(
+            binding.placeOfWorkDefault,
+            binding.placeOfWorkEditedLayout,
+            !filterParameters.countryId.isNullOrEmpty()
+        )
 
-            countryId = filterParameters.countryId
-            countryName = filterParameters.countryName
+        binding.placeOfWorkEditedValue.text = listOfNotNull(
+            filterParameters.countryName?.takeIf { it.isNotBlank() },
+            filterParameters.regionName?.takeIf { it.isNotBlank() }
+        ).joinToString(", ")
 
-            if (!filterParameters.regionId.isNullOrEmpty()) {
-                val placeOfWorkEditedValue = "${filterParameters.countryName}, ${filterParameters.regionName}"
-                binding.placeOfWorkEditedValue.text = placeOfWorkEditedValue
+        countryId = filterParameters.countryId
+        countryName = filterParameters.countryName
+        regionId = filterParameters.regionId
+        regionName = filterParameters.regionName
 
-                regionId = filterParameters.regionId
-                regionName = filterParameters.regionName
-            }
-        } else {
-            binding.placeOfWorkDefault.isVisible = true
-            binding.placeOfWorkEditedLayout.isVisible = false
-        }
+        toggleVisibility(
+            binding.industryDefault,
+            binding.industryEditedLayout,
+            !filterParameters.industryId.isNullOrEmpty()
+        )
+        binding.industryEditedValue.text = filterParameters.industryName
 
-        if (!filterParameters.industryId.isNullOrEmpty()) {
-            binding.industryDefault.isVisible = false
-            binding.industryEditedLayout.isVisible = true
-            binding.industryEditedValue.text = filterParameters.industryName
+        selectedIndustryId = filterParameters.industryId
+        selectedIndustry = filterParameters.industryName
 
-            selectedIndustryId = filterParameters.industryId
-            selectedIndustry = filterParameters.industryName
-        } else {
-            binding.industryEditedLayout.isVisible = false
-            binding.industryDefault.isVisible = true
-        }
         val currentSalaryText = binding.salaryEditText.text.toString()
         val newSalaryText = filterParameters.expectedSalary?.toString() ?: TEXT_EMPTY
         if (currentSalaryText != newSalaryText) {
@@ -267,6 +253,11 @@ class FilterCommonFragment : Fragment() {
         }
 
         binding.salaryCheckbox.isChecked = filterParameters.isWithoutSalaryShowed
+    }
+
+    private fun toggleVisibility(defaultView: View, editedView: View, isEditedVisible: Boolean) {
+        defaultView.isVisible = !isEditedVisible
+        editedView.isVisible = isEditedVisible
     }
 
     companion object {
