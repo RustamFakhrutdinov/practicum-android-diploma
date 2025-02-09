@@ -32,7 +32,6 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
-
     private val viewModel: SearchViewModel by viewModel()
 
     private var vacancyAdapter: VacancyAdapter? = null
