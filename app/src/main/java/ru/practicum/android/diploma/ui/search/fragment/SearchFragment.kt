@@ -29,7 +29,8 @@ class SearchFragment : Fragment() {
         CONTENT, NO_CONNECTION, LOADING, PAGINATION_LOADING, NOT_FOUND, EMPTY
     }
 
-    private val binding: FragmentSearchBinding by lazy { FragmentSearchBinding.inflate(layoutInflater) }
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
 
     private val viewModel: SearchViewModel by viewModel()
 
@@ -58,6 +59,7 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -141,6 +143,11 @@ class SearchFragment : Fragment() {
         binding.buttonFilter.setOnClickListener {
             findNavController().navigate(R.id.action_searchFragment_to_filterCommonFragment)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     private fun clearSearchText() {
