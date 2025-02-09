@@ -148,10 +148,10 @@ class FilterRegionFragment : Fragment() {
 
     private fun showUI(state: UIState) {
         binding.apply {
-            errorPlaceholderGroup.isVisible = (state == UIState.ERROR)
-            progressBar.isVisible = (state == UIState.LOADING)
-            recyclerView.isVisible = (state == UIState.CONTENT)
-            notFoundPlaceholderGroup.isVisible = (state == UIState.EMPTY)
+            errorPlaceholderGroup.isVisible = state == UIState.ERROR
+            progressBar.isVisible = state == UIState.LOADING
+            recyclerView.isVisible = state == UIState.CONTENT
+            notFoundPlaceholderGroup.isVisible = state == UIState.EMPTY
         }
     }
 
