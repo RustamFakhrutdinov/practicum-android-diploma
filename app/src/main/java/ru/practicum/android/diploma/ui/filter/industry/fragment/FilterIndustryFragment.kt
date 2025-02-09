@@ -28,7 +28,8 @@ class FilterIndustryFragment : Fragment() {
         ERROR, LOAD
     }
 
-    private lateinit var binding: FragmentFilterIndustryBinding
+    private var _binding: FragmentFilterIndustryBinding? = null
+    private val binding get() = _binding!!
 
     private val viewModel: FilterIndustryViewModel by viewModel()
     private var adapter: IndustryAdapter? = null
@@ -42,7 +43,7 @@ class FilterIndustryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentFilterIndustryBinding.inflate(inflater, container, false)
+        _binding = FragmentFilterIndustryBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -114,7 +115,7 @@ class FilterIndustryFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        CoroutineUtils.debounceJob?.cancel()
+        _binding = null
     }
 
     private fun renderList(state: PlaceholderState) {
