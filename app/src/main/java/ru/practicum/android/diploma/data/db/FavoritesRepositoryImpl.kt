@@ -12,13 +12,16 @@ import ru.practicum.android.diploma.domain.DatabaseResult
 import ru.practicum.android.diploma.domain.Resource
 import ru.practicum.android.diploma.domain.VacancyNotFoundException
 import ru.practicum.android.diploma.domain.favorites.api.FavoritesRepository
+import ru.practicum.android.diploma.domain.mapper.VacancyToVacancyForSearchViewHolderMapper
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.domain.models.VacancyForSearchViewHolder
 import ru.practicum.android.diploma.util.ResponseCode
 import java.io.IOException
 
 class FavoritesRepositoryImpl(
     private val appDatabase: AppDatabase,
-    private val converter: VacanciesConverter
+    private val converter: VacanciesConverter,
+    private val vacancyMapper: VacancyToVacancyForSearchViewHolderMapper
 ) : FavoritesRepository {
 
     // Этот метод будет удален, не используйте его
@@ -45,7 +48,7 @@ class FavoritesRepositoryImpl(
                     emit(DatabaseResult.Empty)
                 } else {
                     val vacancies = entities.map { converter.convertFromShortEntity(it) }
-                    emit(DatabaseResult.Success(vacancies))
+                    emit(DatabaseResult.Success(convertFromVacancy(vacancies)))
                 }
             }
         } catch (e: IOException) {
@@ -92,4 +95,9 @@ class FavoritesRepositoryImpl(
     private fun convertFromDB(entity: List<VacancyEntity>) = entity.map(converter::convertFromDBtoVacancy)
 
     private fun convertToDB(vacancy: Vacancy) = converter.convertFromVacancyToDB(vacancy)
+
+    private fun convertFromVacancy(vacancies: List<Vacancy>): List<VacancyForSearchViewHolder> {
+        return vacancies.map { vacancy -> vacancyMapper.map(vacancy)
+        }
+    }
 }

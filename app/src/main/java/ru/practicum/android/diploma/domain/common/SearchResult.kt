@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.domain.common
 import ru.practicum.android.diploma.domain.models.Area
 import ru.practicum.android.diploma.domain.models.CountryRegionData
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.domain.models.VacancyForSearchViewHolder
 
 sealed interface SearchResult {
 
@@ -14,7 +15,7 @@ sealed interface SearchResult {
 
     data class SearchVacanciesContent(
         val found: Int,
-        val items: List<Vacancy>
+        val items: List<VacancyForSearchViewHolder>
     ) : SearchResult
 
     data class GetVacancyContent(

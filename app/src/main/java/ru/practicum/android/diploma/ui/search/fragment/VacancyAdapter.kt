@@ -5,11 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import ru.practicum.android.diploma.databinding.ItemVacancyBinding
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.domain.models.VacancyForSearchViewHolder
 import ru.practicum.android.diploma.util.diffutils.VacancyDiffCallback
 
 class VacancyAdapter(
     private val onProductClick: (vacancyId: Long) -> Unit,
-) : ListAdapter<Vacancy, VacancyViewHolder>(VacancyDiffCallback()) {
+) : ListAdapter<VacancyForSearchViewHolder, VacancyViewHolder>(VacancyDiffCallback()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

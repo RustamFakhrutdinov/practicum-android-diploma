@@ -8,15 +8,18 @@ import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.Resource
 import ru.practicum.android.diploma.domain.common.SearchResult
 import ru.practicum.android.diploma.domain.filter.api.FilterInteractor
+import ru.practicum.android.diploma.domain.mapper.VacancyToVacancyForSearchViewHolderMapper
 import ru.practicum.android.diploma.domain.models.FilterParameters
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.domain.models.VacancyForSearchViewHolder
 import ru.practicum.android.diploma.domain.models.VacancyResponse
 import ru.practicum.android.diploma.domain.search.api.VacanciesInteractor
 import ru.practicum.android.diploma.util.SingleEventLiveData
 
 class SearchViewModel(
     private val vacanciesInteractor: VacanciesInteractor,
-    private val filterInteractor: FilterInteractor
+    private val filterInteractor: FilterInteractor,
+    private val vacancyMapper: VacancyToVacancyForSearchViewHolderMapper
 ) : ViewModel() {
 
     private val searchResultData: MutableLiveData<SearchResult> =
@@ -39,7 +42,7 @@ class SearchViewModel(
     private var currentPage: Int = 0
     private var maxPages: Int = 0
     private var isNextPageLoading = false
-    private var vacanciesList = arrayListOf<Vacancy>()
+    private var vacanciesList = arrayListOf<VacancyForSearchViewHolder>()
 
     private val openVacancyTrigger = SingleEventLiveData<Long>()
 
@@ -82,7 +85,7 @@ class SearchViewModel(
             isNextPageLoading = false
             options["page"] = 0
             currentPage = 0
-            vacanciesList = arrayListOf<Vacancy>()
+            vacanciesList = arrayListOf<VacancyForSearchViewHolder>()
         }
 
         viewModelScope.launch {
@@ -90,7 +93,7 @@ class SearchViewModel(
                 .searchVacancies(text, options)
                 .collect { result ->
                     maxPages = result.value?.pages ?: 0
-                    vacanciesList.addAll(result.value?.items ?: emptyList())
+                    vacanciesList.addAll(convertFromVacancy(result.value?.items ?: emptyList()))
                     resultHandle(result)
                     currentPage++
                     isNextPageLoading = false
@@ -105,11 +108,11 @@ class SearchViewModel(
             } else {
                 searchResultData.postValue(SearchResult.Error)
             }
-
         } else if (result.value != null) {
             if (result.value.items.isEmpty()) {
                 searchResultData.postValue(SearchResult.NotFound)
             } else {
+
                 searchResultData.postValue(SearchResult.SearchVacanciesContent(result.value.found, vacanciesList))
             }
         }
@@ -124,5 +127,10 @@ class SearchViewModel(
             searchVacancies(text, false)
         }
 
+    }
+
+    private fun convertFromVacancy(vacancies: List<Vacancy>): List<VacancyForSearchViewHolder> {
+        return vacancies.map { vacancy -> vacancyMapper.map(vacancy)
+        }
     }
 }
