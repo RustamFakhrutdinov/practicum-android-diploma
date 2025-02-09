@@ -14,6 +14,5 @@ data class VacancyForSearchViewHolder(
     val description: String?,
     val keySkills: List<Skill?>,
     val alternateUrl: String?,
- //   val address: Address?
+    //   val address: Address?
 )
-

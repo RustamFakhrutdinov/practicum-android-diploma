@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.util.diffutils
 
 import androidx.recyclerview.widget.DiffUtil
-import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancyForSearchViewHolder
 
 class VacancyDiffCallback : DiffUtil.ItemCallback<VacancyForSearchViewHolder>() {

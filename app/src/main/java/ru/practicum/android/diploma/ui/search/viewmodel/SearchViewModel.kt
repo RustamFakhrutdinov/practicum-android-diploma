@@ -112,7 +112,6 @@ class SearchViewModel(
             if (result.value.items.isEmpty()) {
                 searchResultData.postValue(SearchResult.NotFound)
             } else {
-
                 searchResultData.postValue(SearchResult.SearchVacanciesContent(result.value.found, vacanciesList))
             }
         }

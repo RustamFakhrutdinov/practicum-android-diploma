@@ -14,7 +14,9 @@ class VacancyToVacancyForSearchViewHolderMapper(private val context: Context) :
         area = from.area,
         employer = from.employer,
         salary = createSalaryInterval(
-            from.salary?.from, from.salary?.to, from
+            from.salary?.from,
+            from.salary?.to,
+            from
                 .salary?.currency
         ),
         experience = from.experience,
@@ -60,6 +62,3 @@ class VacancyToVacancyForSearchViewHolderMapper(private val context: Context) :
         return "%,d".format(value).replace(",", " ")
     }
 }
-
-
-
