@@ -116,6 +116,7 @@ class FilterIndustryFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        CoroutineUtils.debounceJob?.cancel()
     }
 
     private fun renderList(state: PlaceholderState) {
