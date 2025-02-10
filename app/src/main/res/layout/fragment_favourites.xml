@@ -67,7 +67,9 @@
         app:layout_constraintBottom_toTopOf="@id/bottomBorder"
         app:layout_constraintEnd_toEndOf="@id/rightGuideline"
         app:layout_constraintStart_toStartOf="@id/leftGuideline"
-        android:src="@drawable/placeholder_search_not_found" />
+        android:src="@drawable/placeholder_search_not_found"
+        android:visibility="gone"
+        />
 
     <TextView
         android:id="@+id/errorPlaceholderText"
