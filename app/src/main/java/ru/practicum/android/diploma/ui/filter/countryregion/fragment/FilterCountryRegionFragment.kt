@@ -107,7 +107,9 @@ class FilterCountryRegionFragment : Fragment() {
                             FilterNames.COUNTRY_ID,
                             if (viewModel.countryRegion.value.countryVisible) {
                                 viewModel.countryRegion.value.countryId
-                            } else null
+                            } else {
+                                null
+                            }
                         )
                     }
                     findNavController().navigate(
