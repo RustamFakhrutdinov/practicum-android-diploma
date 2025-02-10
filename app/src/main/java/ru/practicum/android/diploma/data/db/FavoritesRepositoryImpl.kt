@@ -25,8 +25,12 @@ class FavoritesRepositoryImpl(
 
     override fun getFavoritesList(): Flow<DatabaseResult> = try {
         appDatabase.vacancyDao().getFavoritesList().map { entities ->
-            val vacancies = entities.map { converter.convertFromShortEntity(it) }
-            DatabaseResult.Success(convertFromVacancy(vacancies))
+            if (entities.isEmpty()) {
+                DatabaseResult.Empty
+            } else {
+                val vacancies = entities.map { converter.convertFromShortEntity(it) }
+                DatabaseResult.Success(convertFromVacancy(vacancies))
+            }
         }
     } catch (e: IOException) {
         flowOf(DatabaseResult.Error("Ошибка базы данных: ${e.message}"))
