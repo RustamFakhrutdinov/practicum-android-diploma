@@ -103,7 +103,12 @@ class FilterCountryRegionFragment : Fragment() {
                 onClearClicked = { viewModel.clearRegion() },
                 onClickEmptyField = {
                     val bundle = Bundle().apply {
-                        putString(FilterNames.COUNTRY_ID, viewModel.countryRegion.value.countryId)
+                        putString(
+                            FilterNames.COUNTRY_ID,
+                            if (viewModel.countryRegion.value.countryVisible) {
+                                viewModel.countryRegion.value.countryId
+                            } else null
+                        )
                     }
                     findNavController().navigate(
                         R.id.action_filterCountryRegionFragment_to_filterRegionFragment,
