@@ -12,18 +12,21 @@ import ru.practicum.android.diploma.data.db.entity.VacancyEntity
 import ru.practicum.android.diploma.domain.DatabaseResult
 import ru.practicum.android.diploma.domain.VacancyNotFoundException
 import ru.practicum.android.diploma.domain.favorites.api.FavoritesRepository
+import ru.practicum.android.diploma.domain.mapper.VacancyToVacancyForSearchViewHolderMapper
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.domain.models.VacancyForSearchViewHolder
 import java.io.IOException
 
 class FavoritesRepositoryImpl(
     private val appDatabase: AppDatabase,
-    private val converter: VacanciesConverter
+    private val converter: VacanciesConverter,
+    private val vacancyMapper: VacancyToVacancyForSearchViewHolderMapper
 ) : FavoritesRepository {
 
     override fun getFavoritesList(): Flow<DatabaseResult> = try {
         appDatabase.vacancyDao().getFavoritesList().map { entities ->
             val vacancies = entities.map { converter.convertFromShortEntity(it) }
-            DatabaseResult.Success(vacancies)
+            DatabaseResult.Success(convertFromVacancy(vacancies))
         }
     } catch (e: IOException) {
         flowOf(DatabaseResult.Error("Ошибка базы данных: ${e.message}"))
@@ -66,4 +69,9 @@ class FavoritesRepositoryImpl(
     }
 
     private fun convertToDB(vacancy: Vacancy) = converter.convertFromVacancyToDB(vacancy)
+
+    private fun convertFromVacancy(vacancies: List<Vacancy>): List<VacancyForSearchViewHolder> {
+        return vacancies.map { vacancy -> vacancyMapper.map(vacancy)
+        }
+    }
 }

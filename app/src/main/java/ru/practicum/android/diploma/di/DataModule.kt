@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.di
 import android.content.Context
 import androidx.room.Room
 import com.google.gson.Gson
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -27,6 +28,7 @@ import ru.practicum.android.diploma.domain.areas.api.AreasRepository
 import ru.practicum.android.diploma.domain.favorites.api.FavoritesRepository
 import ru.practicum.android.diploma.domain.filter.api.FilterRepository
 import ru.practicum.android.diploma.domain.industries.api.IndustriesRepository
+import ru.practicum.android.diploma.domain.mapper.VacancyToVacancyForSearchViewHolderMapper
 import ru.practicum.android.diploma.domain.models.FilterParameters
 import ru.practicum.android.diploma.domain.search.api.VacanciesRepository
 import ru.practicum.android.diploma.domain.sharing.api.ExternalNavigator
@@ -78,7 +80,7 @@ val dataModule = module {
     }
 
     factory<FavoritesRepository> {
-        FavoritesRepositoryImpl(get(), get())
+        FavoritesRepositoryImpl(get(), get(), get())
     }
 
     factory<ExternalNavigator> {
@@ -108,4 +110,5 @@ val dataModule = module {
         FilterRepositoryImpl(get())
     }
 // зависимости для работы с сохранением фильтров
+    factory { VacancyToVacancyForSearchViewHolderMapper(androidApplication()) }
 }
