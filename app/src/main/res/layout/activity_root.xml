@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".ui.root.RootActivity">
 
     <androidx.fragment.app.FragmentContainerView
@@ -26,11 +27,11 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         style="@style/BottomNavBar"
-        app:itemTextAppearanceActive="@style/BottomNavBarTextStyle"
-        app:itemTextAppearanceInactive="@style/BottomNavBarTextStyle"
         android:layout_width="0dp"
         android:layout_height="@dimen/bottom_menu_height"
         app:itemIconTint="@drawable/bottom_nav_colors"
+        app:itemTextAppearanceActive="@style/BottomNavBarTextStyle"
+        app:itemTextAppearanceInactive="@style/BottomNavBarTextStyle"
         app:itemTextColor="@drawable/bottom_nav_colors"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -55,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="emptyListPlaceholderImage, emptyListPlaceholderText"
-        android:visibility="visible" />
+        android:visibility="invisible" />
 
     <ImageView
         android:id="@+id/errorPlaceholderImage"
@@ -67,9 +67,7 @@
         app:layout_constraintBottom_toTopOf="@id/bottomBorder"
         app:layout_constraintEnd_toEndOf="@id/rightGuideline"
         app:layout_constraintStart_toStartOf="@id/leftGuideline"
-        android:src="@drawable/placeholder_search_not_found"
-        android:visibility="gone"
-        />
+        android:src="@drawable/placeholder_search_not_found"/>
 
     <TextView
         android:id="@+id/errorPlaceholderText"
