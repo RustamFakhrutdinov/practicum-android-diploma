@@ -15,7 +15,6 @@ import ru.practicum.android.diploma.domain.favorites.api.FavoritesRepository
 import ru.practicum.android.diploma.domain.mapper.VacancyToVacancyForSearchViewHolderMapper
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancyForSearchViewHolder
-import ru.practicum.android.diploma.util.ResponseCode
 import java.io.IOException
 
 class FavoritesRepositoryImpl(
