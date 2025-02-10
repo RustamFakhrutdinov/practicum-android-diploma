@@ -152,7 +152,7 @@ class FilterIndustryFragment : Fragment() {
     private fun clearText() {
         binding.editTextSearch.setText("")
         binding.editTextSearch.clearFocus()
-        binding.errorPlaceholderIndustry.isVisible = false
+        binding.notFoundPlaceholderIndustry.isVisible = false
         binding.industryRecyclerView.isVisible = true
         selectedIndustryId = null
         selectedIndustryName = null

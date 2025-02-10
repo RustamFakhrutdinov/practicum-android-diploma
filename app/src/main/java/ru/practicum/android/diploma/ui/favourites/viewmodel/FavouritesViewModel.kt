@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.practicum.android.diploma.domain.DatabaseResult
@@ -33,6 +34,7 @@ class FavouritesViewModel(
     private fun loadFavorites() {
         viewModelScope.launch(Dispatchers.IO) {
             interactor.getFavoritesList()
+                .flowOn(Dispatchers.IO)
                 .collect { resource ->
                     // Переключаемся на главный поток перед обновлением LiveData
                     withContext(Dispatchers.Main) {
