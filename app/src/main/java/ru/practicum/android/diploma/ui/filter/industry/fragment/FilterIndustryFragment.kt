@@ -30,6 +30,7 @@ class FilterIndustryFragment : Fragment() {
 
     private var _binding: FragmentFilterIndustryBinding? = null
     private val binding get() = _binding!!
+
     private val viewModel: FilterIndustryViewModel by viewModel()
     private var adapter: IndustryAdapter? = null
     private var selectedIndustry: Industry? = null

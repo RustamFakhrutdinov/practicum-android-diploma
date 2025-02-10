@@ -16,7 +16,7 @@ compileSdk = "35"
 navigationFragmentKtx = "2.8.5"
 retrofit = "2.11.0"
 roomRuntime = "2.6.1"
-targetSdk = "33"
+targetSdk = "35"
 
 # Detekt
 detekt = "1.23.3"
