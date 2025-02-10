@@ -47,8 +47,7 @@ class FavouritesFragment : Fragment() {
         binding.favoritesRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.favoritesRecyclerView.adapter = adapter
 
-        val owner = getViewLifecycleOwner()
-        viewModel.getVacancyTrigger().observe(owner) { vacancyId ->
+        viewModel.getVacancyTrigger().observe(viewLifecycleOwner) { vacancyId ->
             openVacancyDetails(vacancyId)
         }
 

@@ -23,7 +23,7 @@ class FilterCommonViewModel(
 
     init {
         _filterParamLiveData.postValue(filterParameters)
-        shouldShowResetButton()
+        updateButtonsVisibility()
     }
 
     fun setCountryAndRegionParams(
@@ -39,52 +39,42 @@ class FilterCommonViewModel(
             regionName = regionName
         )
         _filterParamLiveData.postValue(filterParameters)
-        shouldShowApplyButton()
-        shouldShowResetButton()
+        updateButtonsVisibility()
     }
 
     fun setIndustryParams(industryId: String?, industryName: String?) {
         filterParameters = filterParameters.copy(industryId = industryId, industryName = industryName)
         _filterParamLiveData.postValue(filterParameters)
-        shouldShowApplyButton()
-        shouldShowResetButton()
+        updateButtonsVisibility()
     }
 
     fun setExpectedSalaryParam(expectedSalary: Int?) {
         if (filterParameters.expectedSalary != expectedSalary) {
             filterParameters = filterParameters.copy(expectedSalary = expectedSalary)
             _filterParamLiveData.postValue(filterParameters)
-            shouldShowApplyButton()
-            shouldShowResetButton()
+            updateButtonsVisibility()
         }
     }
 
     fun setIsWithoutSalaryShowed(isWithoutSalaryShowed: Boolean) {
         filterParameters = filterParameters.copy(isWithoutSalaryShowed = isWithoutSalaryShowed)
         _filterParamLiveData.postValue(filterParameters)
-        shouldShowApplyButton()
-        shouldShowResetButton()
+        updateButtonsVisibility()
     }
 
     fun saveFilterSettings() {
-        filterInteractor.saveToFilterStorage(
-            filterParameters
-        )
-        shouldShowApplyButton()
+        filterInteractor.saveToFilterStorage(filterParameters)
+        updateButtonsVisibility()
     }
 
     fun resetFilter() {
         filterParameters = FilterParameters(isWithoutSalaryShowed = false)
         _filterParamLiveData.postValue(filterParameters)
-        shouldShowApplyButton()
-        shouldShowResetButton()
+        updateButtonsVisibility()
     }
 
-    private fun shouldShowApplyButton() {
+    private fun updateButtonsVisibility() {
         _applyButtonLiveData.postValue(filterInteractor.readFromFilterStorage() != filterParameters)
-    }
-
-    private fun shouldShowResetButton() {
         _resetButtonLiveData.postValue(filterParameters != FilterParameters())
     }
 

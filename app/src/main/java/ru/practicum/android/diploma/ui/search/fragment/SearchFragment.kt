@@ -29,7 +29,8 @@ class SearchFragment : Fragment() {
         CONTENT, NO_CONNECTION, LOADING, PAGINATION_LOADING, NOT_FOUND, EMPTY
     }
 
-    private val binding: FragmentSearchBinding by lazy { FragmentSearchBinding.inflate(layoutInflater) }
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
 
     private val viewModel: SearchViewModel by viewModel()
 
@@ -58,6 +59,7 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -72,22 +74,21 @@ class SearchFragment : Fragment() {
             )
         }
 
-        val owner = getViewLifecycleOwner()
-
         val onSearchTrackClick: (Long) -> Unit =
             { vacancyId: Long -> viewModel.onVacancyClicked(vacancyId) }
         vacancyAdapter = VacancyAdapter(onSearchTrackClick)
         binding.recyclerViewSearch.layoutManager = LinearLayoutManager(context)
         binding.recyclerViewSearch.adapter = vacancyAdapter
 
-        viewModel.getVacancyTrigger().observe(owner) { vacancyId ->
+        viewModel.getVacancyTrigger().observe(viewLifecycleOwner) { vacancyId ->
             openVacancyDetails(vacancyId)
         }
 
-        viewModel.searchResultLiveData()
-            .observe(owner) { searchResult: SearchResult -> renderSearchResult(searchResult) }
+        viewModel.searchResultLiveData().observe(viewLifecycleOwner) { result ->
+            renderSearchResult(result)
+        }
 
-        viewModel.filterIconLiveData.observe(owner) {
+        viewModel.filterIconLiveData.observe(viewLifecycleOwner) {
             isFilterOn(it)
         }
 
@@ -121,10 +122,12 @@ class SearchFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.clearIcon.isVisible = clearButtonIsVisible(s)
-                binding.searchIcon.isVisible = !clearButtonIsVisible(s)
+                binding.clearIcon.isVisible = !s.isNullOrEmpty()
+                binding.searchIcon.isVisible = s.isNullOrEmpty()
                 if (!s.isNullOrEmpty()) {
-                    CoroutineUtils.debounce(lifecycleScope, SEARCH_DEBOUNCE_DELAY, { enterSearch() })
+                    CoroutineUtils.debounce(lifecycleScope, SEARCH_DEBOUNCE_DELAY) {
+                        enterSearch()
+                    }
                 }
             }
 
@@ -141,6 +144,11 @@ class SearchFragment : Fragment() {
         binding.buttonFilter.setOnClickListener {
             findNavController().navigate(R.id.action_searchFragment_to_filterCommonFragment)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     private fun clearSearchText() {
@@ -165,46 +173,37 @@ class SearchFragment : Fragment() {
     }
 
     private fun renderSearchResult(result: SearchResult) {
-        when (result) {
-            is SearchResult.SearchVacanciesContent -> showPlaceholders(PlaceholderState.CONTENT)
-            is SearchResult.NoConnection -> showPlaceholders(PlaceholderState.NO_CONNECTION)
-            is SearchResult.Loading -> showPlaceholders(PlaceholderState.LOADING)
-            is SearchResult.PaginationLoading -> showPlaceholders(PlaceholderState.PAGINATION_LOADING)
-            is SearchResult.NotFound -> showPlaceholders(PlaceholderState.NOT_FOUND)
-            is SearchResult.Empty -> showPlaceholders(PlaceholderState.EMPTY)
-            else -> {}
+        val state = when (result) {
+            is SearchResult.SearchVacanciesContent -> PlaceholderState.CONTENT
+            is SearchResult.NoConnection -> PlaceholderState.NO_CONNECTION
+            is SearchResult.Loading -> PlaceholderState.LOADING
+            is SearchResult.PaginationLoading -> PlaceholderState.PAGINATION_LOADING
+            is SearchResult.NotFound -> PlaceholderState.NOT_FOUND
+            is SearchResult.Empty -> PlaceholderState.EMPTY
+            else -> return
         }
+        updateUI(state, result)
+    }
 
-        when (result) {
-            is SearchResult.SearchVacanciesContent -> showProgressBars(PlaceholderState.CONTENT)
-            is SearchResult.NoConnection -> showProgressBars(PlaceholderState.NO_CONNECTION)
-            is SearchResult.Loading -> showProgressBars(PlaceholderState.LOADING)
-            is SearchResult.PaginationLoading -> showProgressBars(PlaceholderState.PAGINATION_LOADING)
-            is SearchResult.NotFound -> showProgressBars(PlaceholderState.NOT_FOUND)
-            is SearchResult.Empty -> showProgressBars(PlaceholderState.EMPTY)
-            else -> {}
-        }
-
-        when (result) {
-            is SearchResult.SearchVacanciesContent -> showContent(PlaceholderState.CONTENT, result)
-            is SearchResult.NoConnection -> showContent(PlaceholderState.NO_CONNECTION, result)
-            is SearchResult.Loading -> showContent(PlaceholderState.LOADING, result)
-            is SearchResult.PaginationLoading -> showContent(PlaceholderState.PAGINATION_LOADING, result)
-            is SearchResult.NotFound -> showContent(PlaceholderState.NOT_FOUND, result)
-            is SearchResult.Empty -> showContent(PlaceholderState.EMPTY, result)
-            else -> {}
-        }
+    private fun updateUI(state: PlaceholderState, result: SearchResult) {
+        showPlaceholders(state)
+        showProgressBars(state)
+        showContent(state, result)
     }
 
     private fun showPlaceholders(state: PlaceholderState) {
-        binding.noConnectionPlaceholderGroup.isVisible = state == PlaceholderState.NO_CONNECTION
-        binding.notFoundPlaceholderGroup.isVisible = state == PlaceholderState.NOT_FOUND
-        binding.searchDefaultPlaceholderImage.isVisible = state == PlaceholderState.EMPTY
+        binding.apply {
+            noConnectionPlaceholderGroup.isVisible = state == PlaceholderState.NO_CONNECTION
+            notFoundPlaceholderGroup.isVisible = state == PlaceholderState.NOT_FOUND
+            searchDefaultPlaceholderImage.isVisible = state == PlaceholderState.EMPTY
+        }
     }
 
     private fun showProgressBars(state: PlaceholderState) {
-        binding.progressBarSearch.isVisible = state == PlaceholderState.LOADING
-        binding.progressBarPagination.isVisible = state == PlaceholderState.PAGINATION_LOADING
+        binding.apply {
+            progressBarSearch.isVisible = state == PlaceholderState.LOADING
+            progressBarPagination.isVisible = state == PlaceholderState.PAGINATION_LOADING
+        }
     }
 
     private fun showContent(state: PlaceholderState, result: SearchResult) {
@@ -255,10 +254,6 @@ class SearchFragment : Fragment() {
 
     private fun enterSearch() {
         viewModel.searchVacancies(binding.editTextSearch.text.toString(), true)
-    }
-
-    private fun clearButtonIsVisible(s: CharSequence?): Boolean {
-        return !s.isNullOrEmpty()
     }
 
     private fun isFilterOn(isFilterOn: Boolean) {
