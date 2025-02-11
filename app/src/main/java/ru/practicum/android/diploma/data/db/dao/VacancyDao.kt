@@ -20,9 +20,6 @@ interface VacancyDao {
     @Query("DELETE FROM favorites_table WHERE vacancy_id = :vacancyId")
     suspend fun removeById(vacancyId: Long)
 
-    @Query("SELECT * FROM favorites_table ORDER BY timeStamp DESC")
-    fun getAllFavorites(): Flow<List<VacancyEntity>>
-
     @Query("SELECT * FROM favorites_table WHERE vacancy_id = :vacancyId")
     fun getFavoriteById(vacancyId: Long): VacancyEntity
 

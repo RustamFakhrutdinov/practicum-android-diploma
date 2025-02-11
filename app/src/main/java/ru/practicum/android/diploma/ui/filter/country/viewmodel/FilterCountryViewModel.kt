@@ -15,10 +15,6 @@ class FilterCountryViewModel(
     private val interactor: AreasInteractor
 ) : ViewModel() {
 
-    init {
-        searchCountries()
-    }
-
     private val selectCountryTrigger = SingleEventLiveData<Pair<String, String>>()
     fun selectCountryTrigger(): SingleEventLiveData<Pair<String, String>> = selectCountryTrigger
 
@@ -31,7 +27,7 @@ class FilterCountryViewModel(
         selectCountryTrigger.value = Pair(first = countryId, second = countryName)
     }
 
-    private fun searchCountries() {
+    fun searchCountries() {
         viewModelScope.launch {
             interactor
                 .getCountries()

@@ -207,7 +207,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_16"
                 android:backgroundTint="?attr/whiteToBlack"
-
                 app:layout_constraintBottom_toTopOf="@id/text_view_vacancy_skills_title"
                 app:layout_constraintEnd_toStartOf="@id/rightGuideline"
                 app:layout_constraintStart_toStartOf="@id/leftGuideline"
@@ -270,12 +269,14 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <View
         android:id="@+id/overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/overlay"
         android:visibility="gone" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

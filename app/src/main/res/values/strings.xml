@@ -86,4 +86,7 @@
     <string name="apply">Применить</string>
     <string name="reset">Сбросить</string>
     <string name="other_regions">Другие регионы</string>
+    <string name="not_found_industry_text">Такой отрасли нет</string>
+    <string name="choice_industry">Выбор отрасли</string>
+
 </resources>

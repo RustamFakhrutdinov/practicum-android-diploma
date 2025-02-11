@@ -42,6 +42,8 @@ class FilterCountryFragment : Fragment() {
             findNavController().popBackStack()
         }
 
+        viewModel.searchCountries()
+
         val onClick: (String, String) -> Unit =
             { countryId: String, countryName: String -> viewModel.onItemClicked(countryId, countryName) }
         adapter = CountryAdapter(onClick)
@@ -49,12 +51,11 @@ class FilterCountryFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = adapter
 
-        val owner = getViewLifecycleOwner()
-        viewModel.selectCountryTrigger().observe(owner) { (countryId, countryName) ->
+        viewModel.selectCountryTrigger().observe(viewLifecycleOwner) { (countryId, countryName) ->
             navigateBackWithParams(countryId, countryName)
         }
 
-        viewModel.searchResultLiveData().observe(owner) { searchResult ->
+        viewModel.searchResultLiveData().observe(viewLifecycleOwner) { searchResult ->
             when (searchResult) {
                 is SearchResult.Error -> showUI(UIState.ERROR, searchResult)
                 is SearchResult.Loading -> showUI(UIState.LOADING, searchResult)
@@ -75,22 +76,10 @@ class FilterCountryFragment : Fragment() {
 
     private fun showUI(state: UIState, searchResult: SearchResult) {
         when (state) {
-            UIState.ERROR -> {
-                binding.errorPlaceholderGroup.isVisible = true
-                binding.progressBar.isVisible = false
-                binding.recyclerView.isVisible = false
-            }
-
-            UIState.LOADING -> {
-                binding.errorPlaceholderGroup.isVisible = false
-                binding.progressBar.isVisible = true
-                binding.recyclerView.isVisible = false
-            }
-
+            UIState.ERROR -> toggleUIVisibility(errorVisible = true)
+            UIState.LOADING -> toggleUIVisibility(loadingVisible = true)
             UIState.CONTENT -> {
-                binding.errorPlaceholderGroup.isVisible = false
-                binding.progressBar.isVisible = false
-                binding.recyclerView.isVisible = true
+                toggleUIVisibility(contentVisible = true)
 
                 val content = searchResult as SearchResult.GetAreasContent
 
@@ -101,5 +90,15 @@ class FilterCountryFragment : Fragment() {
                 adapter?.submitList(countries)
             }
         }
+    }
+
+    private fun toggleUIVisibility(
+        errorVisible: Boolean = false,
+        loadingVisible: Boolean = false,
+        contentVisible: Boolean = false
+    ) {
+        binding.errorPlaceholderGroup.isVisible = errorVisible
+        binding.progressBar.isVisible = loadingVisible
+        binding.recyclerView.isVisible = contentVisible
     }
 }

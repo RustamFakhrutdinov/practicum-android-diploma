@@ -12,7 +12,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFavouritesBinding
 import ru.practicum.android.diploma.domain.DatabaseResult
-import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.domain.models.VacancyForSearchViewHolder
 import ru.practicum.android.diploma.ui.favourites.viewmodel.FavouritesViewModel
 import ru.practicum.android.diploma.ui.search.fragment.VacancyAdapter
 import ru.practicum.android.diploma.ui.vacancydetails.fragment.VacancyFragment
@@ -47,8 +47,7 @@ class FavouritesFragment : Fragment() {
         binding.favoritesRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.favoritesRecyclerView.adapter = adapter
 
-        val owner = getViewLifecycleOwner()
-        viewModel.getVacancyTrigger().observe(owner) { vacancyId ->
+        viewModel.getVacancyTrigger().observe(viewLifecycleOwner) { vacancyId ->
             openVacancyDetails(vacancyId)
         }
 
@@ -96,7 +95,7 @@ class FavouritesFragment : Fragment() {
         }
     }
 
-    private fun renderListVacancy(vacancy: List<Vacancy>) {
+    private fun renderListVacancy(vacancy: List<VacancyForSearchViewHolder>) {
         adapter?.submitList(vacancy)
         showPlaceholder(PlaceholderState.LOAD)
     }
